@@ -3,20 +3,18 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  ArrowLeft, 
-  Save, 
-  FileText, 
-  Image as ImageIcon, 
-  Tag, 
-  Eye, 
-  Sparkles,
-  Info 
+import {
+  ArrowLeft,
+  Save,
+  FileText,
+  Star,
+  Info
 } from 'lucide-react';
 import { Button } from '@/components/atoms/Button';
 import { Input } from '@/components/atoms/Input';
 import { Card } from '@/components/atoms/Card';
 import { Badge } from '@/components/atoms/Badge';
+import { ImageUpload } from '@/components/molecules/ImageUpload';
 import { cn } from '@/lib/utils';
 
 export default function CreatePostPage() {
@@ -27,7 +25,7 @@ export default function CreatePostPage() {
   const [imageUrl, setImageUrl] = useState('');
   const [isFeatured, setIsFeatured] = useState(false);
   const [status, setStatus] = useState('published');
-  
+
   const [categories, setCategories] = useState<{id: string, name: string}[]>([]);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -70,25 +68,25 @@ export default function CreatePostPage() {
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <div className="max-w-5xl mx-auto space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="space-y-1">
-          <Link href="/admin/posts" className="inline-flex items-center gap-2 text-zinc-500 hover:text-indigo-400 transition-colors text-xs font-black uppercase tracking-widest mb-2 group">
+          <Link href="/admin/posts" className="inline-flex items-center gap-2 text-muted-foreground hover:text-indigo-500 transition-colors text-xs font-black uppercase tracking-widest mb-2 group">
             <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
             Back to Posts
           </Link>
-          <h1 className="text-4xl font-black text-white tracking-tight">Create <span className="text-indigo-500">New Story</span></h1>
-          <p className="text-zinc-500 font-medium">Draft your next masterpiece and share it with the world.</p>
+          <h1 className="text-3xl md:text-4xl font-black text-foreground tracking-tight">Create <span className="text-indigo-500">New Story</span></h1>
+          <p className="text-muted-foreground font-medium text-sm">Draft your next masterpiece and share it with the world.</p>
         </div>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Main Editor */}
         <div className="lg:col-span-2 space-y-6">
-          <Card variant="glass" className="p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <Card variant="glass" className="p-6">
+            <form onSubmit={handleSubmit} className="space-y-6" id="create-post-form">
               {error && (
-                <div className="bg-red-500/10 text-red-500 border border-red-500/20 p-4 rounded-xl text-sm font-medium animate-in fade-in slide-in-from-top-2">
+                <div className="bg-red-500/10 text-red-400 border border-red-500/20 p-4 rounded-xl text-sm font-medium animate-in fade-in slide-in-from-top-2">
                   {error}
                 </div>
               )}
@@ -104,27 +102,27 @@ export default function CreatePostPage() {
               />
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-zinc-400 ml-1 tracking-wider uppercase">Content (Markdown)</label>
+                <label className="text-xs font-semibold text-muted-foreground ml-1 tracking-wider uppercase">Content (Markdown)</label>
                 <div className="relative group">
-                   <textarea 
-                    value={content} 
-                    onChange={e => setContent(e.target.value)} 
-                    required 
-                    rows={15} 
-                    className="w-full bg-white/5 border border-white/10 rounded-xl py-4 px-6 text-white placeholder-zinc-500 focus:bg-white/10 focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-mono text-sm leading-relaxed resize-none" 
-                    placeholder="Start writing your story in markdown..." 
+                  <textarea
+                    value={content}
+                    onChange={e => setContent(e.target.value)}
+                    required
+                    rows={14}
+                    className="w-full bg-input border border-border rounded-xl py-4 px-5 text-foreground placeholder-muted-foreground focus:bg-background focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-mono text-sm leading-relaxed resize-none"
+                    placeholder="Start writing your story in markdown..."
                   />
                 </div>
               </div>
 
-              <div className="flex items-center justify-between pt-4 border-t border-white/5 mt-8">
-                <Badge variant="outline" className="text-[10px] py-1 border-white/10 text-zinc-500">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-border">
+                <Badge variant="outline" className="text-[10px] py-1 border-border text-muted-foreground">
                   <Info size={10} className="mr-1" /> Markdown Supported
                 </Badge>
-                <Button 
-                  type="submit" 
-                  variant="premium" 
-                  size="lg" 
+                <Button
+                  type="submit"
+                  variant="premium"
+                  size="lg"
                   isLoading={isLoading}
                   leftIcon={<Save size={18} />}
                 >
@@ -137,16 +135,16 @@ export default function CreatePostPage() {
 
         {/* Sidebar Settings */}
         <div className="space-y-6">
-          <Card variant="glass" className="p-6 space-y-8">
+          <Card variant="glass" className="p-5 space-y-6">
             <div className="space-y-4">
-              <h3 className="text-xs font-black text-indigo-400 uppercase tracking-widest border-b border-white/5 pb-2">Publishing</h3>
-              
+              <h3 className="text-xs font-black text-indigo-500 uppercase tracking-widest border-b border-border pb-2">Publishing</h3>
+
               <div className="space-y-1.5">
-                <label className="text-[10px] font-black text-zinc-500 uppercase tracking-wider ml-1">Status</label>
-                <select 
-                  value={status} 
-                  onChange={e => setStatus(e.target.value)} 
-                  className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:ring-2 focus:ring-indigo-500/20 outline-none appearance-none cursor-pointer hover:bg-zinc-900 transition-colors"
+                <label className="text-[10px] font-black text-muted-foreground uppercase tracking-wider ml-1">Status</label>
+                <select
+                  value={status}
+                  onChange={e => setStatus(e.target.value)}
+                  className="w-full bg-input border border-border rounded-xl px-4 py-3 text-sm text-foreground focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none appearance-none cursor-pointer transition-colors"
                 >
                   <option value="published">Published</option>
                   <option value="draft">Draft</option>
@@ -154,11 +152,11 @@ export default function CreatePostPage() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-[10px] font-black text-zinc-500 uppercase tracking-wider ml-1">Category</label>
-                <select 
-                  value={categoryId} 
-                  onChange={e => setCategoryId(e.target.value)} 
-                  className="w-full bg-zinc-950 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:ring-2 focus:ring-indigo-500/20 outline-none appearance-none cursor-pointer hover:bg-zinc-900 transition-colors"
+                <label className="text-[10px] font-black text-muted-foreground uppercase tracking-wider ml-1">Category</label>
+                <select
+                  value={categoryId}
+                  onChange={e => setCategoryId(e.target.value)}
+                  className="w-full bg-input border border-border rounded-xl px-4 py-3 text-sm text-foreground focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none appearance-none cursor-pointer transition-colors"
                 >
                   <option value="">No Category</option>
                   {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
@@ -166,44 +164,31 @@ export default function CreatePostPage() {
               </div>
             </div>
 
-            <div className="space-y-4 border-t border-white/5 pt-6">
-              <h3 className="text-xs font-black text-indigo-400 uppercase tracking-widest border-b border-white/5 pb-2">Media & Visibility</h3>
-              
-              <Input
+            <div className="space-y-4 border-t border-border pt-4">
+              <h3 className="text-xs font-black text-indigo-500 uppercase tracking-widest border-b border-border pb-2">Media & Visibility</h3>
+
+              {/* Image Upload (replaces URL input) */}
+              <ImageUpload
                 label="Cover Image"
-                placeholder="https://images.unsplash.com/..."
                 value={imageUrl}
-                onChange={e => setImageUrl(e.target.value)}
-                leftIcon={<ImageIcon size={18} />}
+                onChange={setImageUrl}
               />
 
-              <div className="flex items-center justify-between bg-white/5 p-4 rounded-xl border border-white/5 group hover:border-indigo-500/30 transition-all cursor-pointer" onClick={() => setIsFeatured(!isFeatured)}>
-                <div className="flex items-center gap-3">
-                  <div className={cn("p-2 rounded-lg transition-colors", isFeatured ? "bg-indigo-500/20 text-indigo-400" : "bg-zinc-800 text-zinc-500")}>
-                    <Sparkles size={16} />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-white leading-none">Featured Post</p>
-                    <p className="text-[10px] text-zinc-500 mt-1">Showcase on homepage</p>
-                  </div>
+              {/* Featured Toggle */}
+              <label className="flex items-center justify-between gap-3 cursor-pointer p-3 rounded-xl border border-border bg-input hover:border-indigo-500/50 transition-all shadow-sm">
+                <div className="flex items-center gap-2">
+                  <Star size={15} className={cn('transition-colors', isFeatured ? 'text-amber-500 fill-amber-500' : 'text-muted-foreground')} />
+                  <span className="text-sm font-semibold text-foreground">Featured Post</span>
                 </div>
-                <div className={cn(
-                  "w-10 h-5 rounded-full relative transition-colors duration-300",
-                  isFeatured ? "bg-indigo-600" : "bg-zinc-800"
-                )}>
-                  <div className={cn(
-                    "absolute top-1 w-3 h-3 bg-white rounded-full transition-all duration-300",
-                    isFeatured ? "left-6" : "left-1"
-                  )}></div>
+                <div
+                  role="checkbox"
+                  aria-checked={isFeatured}
+                  onClick={() => setIsFeatured(!isFeatured)}
+                  className={cn('w-10 h-5 rounded-full relative transition-colors duration-300 shrink-0 border border-border/10', isFeatured ? 'bg-indigo-600' : 'bg-secondary')}
+                >
+                  <div className={cn('absolute top-1 w-3 h-3 bg-white rounded-full transition-all duration-300 shadow-sm', isFeatured ? 'left-6' : 'left-1')}></div>
                 </div>
-              </div>
-            </div>
-
-            <div className="pt-4">
-              <div className="bg-indigo-500/5 border border-indigo-500/10 p-4 rounded-2xl flex gap-3 items-start">
-                <Info size={16} className="text-indigo-400 shrink-0 mt-0.5" />
-                <p className="text-[10px] text-zinc-400 leading-relaxed font-medium">Your story will be automatically optimized for SEO and shared across your connected platforms.</p>
-              </div>
+              </label>
             </div>
           </Card>
         </div>

@@ -66,15 +66,15 @@ export default function EditCategoryPage() {
   return (
     <div className="max-w-2xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <header className="space-y-1">
-        <Link href="/admin/categories" className="inline-flex items-center gap-2 text-zinc-500 hover:text-indigo-400 transition-colors text-xs font-black uppercase tracking-widest mb-2 group">
+        <Link href="/admin/categories" className="inline-flex items-center gap-2 text-muted-foreground hover:text-indigo-500 transition-colors text-xs font-black uppercase tracking-widest mb-2 group">
           <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
           Back to Categories
         </Link>
-        <h1 className="text-4xl font-black text-white tracking-tight">Edit <span className="text-violet-500">Category</span></h1>
-        <p className="text-zinc-500 font-medium tracking-wide">Refine your content structure by updating category details.</p>
+        <h1 className="text-4xl font-black text-foreground tracking-tight">Edit <span className="text-violet-500">Category</span></h1>
+        <p className="text-muted-foreground font-medium tracking-wide">Refine your content structure by updating category details.</p>
       </header>
 
-      <Card variant="glass" className="p-8">
+      <Card className="p-8 bg-card border-border shadow-sm transition-colors duration-300">
         {error && (
           <div className="bg-red-500/10 text-red-500 border border-red-500/20 p-4 rounded-xl text-sm font-medium mb-6 animate-in fade-in slide-in-from-top-2">
             {error}
@@ -93,14 +93,14 @@ export default function EditCategoryPage() {
             leftIcon={<Tags size={18} />}
           />
 
-          <div className="bg-white/5 border border-white/5 p-4 rounded-2xl flex items-center justify-between group overflow-hidden relative">
+          <div className="bg-secondary/50 border border-border/50 p-4 rounded-2xl flex items-center justify-between group overflow-hidden relative">
             <div className="flex items-center gap-3 relative z-10">
-              <div className="p-2 rounded-lg bg-zinc-800 text-zinc-500 group-hover:bg-violet-600/20 group-hover:text-violet-400 transition-all">
+              <div className="p-2 rounded-lg bg-secondary text-muted-foreground group-hover:bg-violet-600/20 group-hover:text-violet-500 transition-all">
                 <Hash size={16} />
               </div>
               <div>
-                <p className="text-[10px] text-zinc-400 leading-none font-black uppercase tracking-widest">Internal Category ID</p>
-                <p className="text-xs text-zinc-500 font-mono mt-1.5">{id}</p>
+                <p className="text-[10px] text-muted-foreground leading-none font-black uppercase tracking-widest">Internal Category ID</p>
+                <p className="text-xs text-muted-foreground/80 font-mono mt-1.5">{id}</p>
               </div>
             </div>
             
@@ -108,7 +108,7 @@ export default function EditCategoryPage() {
             <div className="absolute right-0 top-0 w-24 h-full bg-violet-600/5 blur-2xl group-hover:bg-violet-600/10 transition-colors"></div>
           </div>
 
-          <div className="pt-4 flex justify-end gap-3 border-t border-white/5">
+          <div className="pt-4 flex justify-end gap-3 border-t border-border">
             <Link href="/admin/categories">
               <Button variant="ghost" type="button">Cancel</Button>
             </Link>

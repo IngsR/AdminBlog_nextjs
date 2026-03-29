@@ -17,11 +17,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     
     const variants = {
       primary: "bg-indigo-600 text-white hover:bg-indigo-500 hover:shadow-lg hover:shadow-indigo-600/30 focus:ring-indigo-500",
-      secondary: "bg-zinc-800 text-zinc-100 hover:bg-zinc-700 focus:ring-zinc-700",
-      outline: "bg-transparent border border-zinc-700 text-zinc-300 hover:bg-zinc-800 hover:text-white focus:ring-zinc-700",
-      ghost: "bg-transparent text-zinc-400 hover:bg-zinc-800 hover:text-white focus:ring-zinc-700",
-      danger: "bg-red-500/10 border border-red-500/20 text-red-500 hover:bg-red-500 hover:text-white focus:ring-red-500",
-      premium: "bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-600/20 hover:shadow-indigo-600/40 hover:-translate-y-0.5"
+      secondary: "bg-secondary text-secondary-foreground hover:bg-muted focus:ring-secondary",
+      outline: "bg-transparent border border-border text-foreground hover:bg-secondary focus:ring-secondary",
+      ghost: "bg-transparent text-muted-foreground hover:bg-secondary hover:text-foreground focus:ring-secondary",
+      danger: "bg-destructive/10 border border-destructive/20 text-destructive hover:bg-destructive hover:text-destructive-foreground focus:ring-destructive",
+      premium: "bg-linear-to-r from-indigo-600 to-violet-600 text-white shadow-lg shadow-indigo-600/20 hover:shadow-indigo-600/40 hover:-translate-y-0.5"
     };
     
     const sizes = {

@@ -10,10 +10,10 @@ interface CardProps {
 
 export const Card = ({ children, className, variant = 'default', hover = false }: CardProps) => {
   const variants = {
-    default: "bg-zinc-900 border-zinc-800",
+    default: "bg-card border-border",
     glass: "glass",
     "glass-dark": "glass-dark",
-    outline: "border-zinc-800 bg-transparent",
+    outline: "border-border bg-transparent",
     gradient: "bg-gradient-to-br from-indigo-600/10 to-violet-600/10 border-indigo-500/20"
   };
 

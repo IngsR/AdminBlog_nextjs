@@ -26,8 +26,8 @@ export default async function PostsPage() {
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-1">
-          <h1 className="text-4xl font-black text-white tracking-tight">Posts</h1>
-          <p className="text-zinc-500 font-medium tracking-wide">Manage and publish your blog content.</p>
+          <h1 className="text-4xl font-black text-foreground tracking-tight">Posts</h1>
+          <p className="text-muted-foreground font-medium tracking-wide">Manage and publish your blog content.</p>
         </div>
         <Link href="/admin/posts/new">
           <Button variant="premium" size="lg" leftIcon={<Plus size={20} />}>
@@ -36,14 +36,14 @@ export default async function PostsPage() {
         </Link>
       </div>
 
-      <Card variant="glass" className="p-0 overflow-hidden border-white/5 shadow-2xl">
-        <div className="p-6 border-b border-white/5 flex flex-col md:flex-row justify-between gap-4 bg-white/5">
+      <Card className="p-0 overflow-hidden border-border bg-card shadow-sm transition-colors duration-300">
+        <div className="p-6 border-b border-border flex flex-col md:flex-row justify-between gap-4 bg-muted/20">
           <div className="relative flex-1 max-w-md group">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500 group-focus-within:text-indigo-500 transition-colors" size={18} />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground transition-colors" size={18} />
             <input 
               type="text" 
               placeholder="Search posts..." 
-              className="w-full bg-zinc-950/50 border border-white/10 rounded-xl py-2.5 pl-12 pr-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+              className="w-full bg-input border border-border rounded-xl py-2.5 pl-12 pr-4 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder-muted-foreground"
             />
           </div>
           <div className="flex items-center gap-2">
@@ -55,30 +55,30 @@ export default async function PostsPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-zinc-950/50">
-                <th className="p-6 text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em] border-b border-white/5">Title & Info</th>
-                <th className="p-6 text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em] border-b border-white/5">Status</th>
-                <th className="p-6 text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em] border-b border-white/5 text-right">Actions</th>
+              <tr className="bg-muted/30">
+                <th className="p-6 text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] border-b border-border">Title & Info</th>
+                <th className="p-6 text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] border-b border-border">Status</th>
+                <th className="p-6 text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em] border-b border-border text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/5">
+            <tbody className="divide-y divide-border">
               {posts.map((post) => (
-                <tr key={post.id} className="group hover:bg-white/2 transition-colors">
+                <tr key={post.id} className="group hover:bg-muted/40 transition-colors">
                   <td className="p-6">
                     <div className="flex items-center gap-4">
                       {post.imageUrl ? (
-                        <img src={post.imageUrl} className="w-12 h-12 rounded-lg object-cover border border-white/10 group-hover:scale-110 transition-transform duration-500" alt="" />
+                        <img src={post.imageUrl} className="w-12 h-12 rounded-lg object-cover border border-border group-hover:scale-110 transition-transform duration-500" alt="" />
                       ) : (
-                        <div className="w-12 h-12 rounded-lg bg-zinc-800 flex items-center justify-center border border-white/5">
-                          <FileText size={20} className="text-zinc-600" />
+                        <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center border border-border">
+                          <FileText size={20} className="text-muted-foreground" />
                         </div>
                       )}
                       <div className="space-y-1">
-                        <Link href={`/admin/posts/${post.id}/edit`} className="text-white font-bold hover:text-indigo-400 transition-colors block leading-tight">
+                        <Link href={`/admin/posts/${post.id}/edit`} className="text-foreground font-bold hover:text-indigo-500 transition-colors block leading-tight">
                           {post.title}
                         </Link>
-                        <div className="flex items-center gap-4 text-[11px] font-medium text-zinc-500">
-                          <span className="flex items-center gap-1.5 leading-none bg-white/5 px-2 py-1 rounded-md">
+                        <div className="flex items-center gap-4 text-[11px] font-medium text-muted-foreground">
+                          <span className="flex items-center gap-1.5 leading-none bg-secondary px-2 py-1 rounded-md border border-border/50">
                             <Calendar size={12} className="text-indigo-500" />
                             {new Date(post.createdAt || '').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                           </span>
@@ -113,12 +113,12 @@ export default async function PostsPage() {
               {posts.length === 0 && (
                 <tr>
                   <td colSpan={3} className="p-20 text-center space-y-4">
-                    <div className="w-16 h-16 rounded-3xl bg-zinc-900 border border-white/5 mx-auto flex items-center justify-center text-zinc-700">
+                    <div className="w-16 h-16 rounded-3xl bg-secondary border border-border mx-auto flex items-center justify-center text-muted-foreground">
                       <FileText size={32} />
                     </div>
                     <div>
-                      <h3 className="text-white font-bold">No posts found</h3>
-                      <p className="text-zinc-500 text-sm">Get started by creating your very first blog post.</p>
+                      <h3 className="text-foreground font-bold">No posts found</h3>
+                      <p className="text-muted-foreground text-sm">Get started by creating your very first blog post.</p>
                     </div>
                     <Link href="/admin/posts/new" className="inline-block mt-4">
                       <Button variant="outline" size="sm">Create First Post</Button>
