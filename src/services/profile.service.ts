@@ -1,10 +1,13 @@
 import { ProfileRepository, Profile, NewProfile } from '@/repositories/profile.repository';
+import { UserRepository } from '@/repositories/user.repository';
 
 export class ProfileService {
   private repository: ProfileRepository;
+  private userRepository: UserRepository;
 
   constructor() {
     this.repository = new ProfileRepository();
+    this.userRepository = new UserRepository();
   }
 
   async getAllProfiles(): Promise<Profile[]> {
@@ -12,7 +15,23 @@ export class ProfileService {
   }
 
   async getProfileById(id: string): Promise<Profile | undefined> {
-    return await this.repository.findById(id);
+    const profile = await this.repository.findById(id);
+    if (profile) return profile;
+
+    // Fallback: Check if user exists but has no profile record yet
+    const user = await this.userRepository.findById(id);
+    if (!user) return undefined;
+
+    // Lazy create profile from user data
+    const newProfile: NewProfile = {
+      id: user.id,
+      name: user.fullName,
+      bio: user.bio || '',
+      avatar_url: user.avatarUrl || '',
+    };
+    
+    const results = await this.repository.create(newProfile);
+    return results[0];
   }
 
   async createProfile(data: NewProfile): Promise<Profile> {

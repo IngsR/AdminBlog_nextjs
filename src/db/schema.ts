@@ -1,7 +1,20 @@
 import { pgTable, uuid, text, timestamp, boolean } from "drizzle-orm/pg-core";
 
+export const users = pgTable("users", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  username: text("username").notNull().unique(),
+  email: text("email").notNull().unique(),
+  passwordHash: text("password_hash").notNull(),
+  fullName: text("full_name").notNull(),
+  bio: text("bio"),
+  avatarUrl: text("avatar_url"),
+  role: text("role").default('admin'),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+});
+
 export const profiles = pgTable("profiles", {
-  id: uuid("id").primaryKey(), // References auth.users.id
+  id: uuid("id").primaryKey().references(() => users.id, { onDelete: 'cascade' }),
   name: text("name").notNull(),
   avatar_url: text("avatar_url"),
   bio: text("bio"),
@@ -22,7 +35,7 @@ export const posts = pgTable("posts", {
   content: text("content").notNull(),
   imageUrl: text("image_url"),
   categoryId: uuid("category_id").references(() => categories.id, { onDelete: 'set null' }),
-  authorId: uuid("author_id").references(() => profiles.id, { onDelete: 'set null' }),
+  authorId: uuid("author_id").references(() => users.id, { onDelete: 'set null' }),
   isFeatured: boolean("is_featured").default(false),
   status: text("status").default('published'),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
