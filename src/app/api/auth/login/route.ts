@@ -23,6 +23,8 @@ export async function POST(request: Request) {
       }
     });
   } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 401 });
+    console.error('Login error:', error);
+    const status = error.message === 'Invalid username or password' ? 401 : 500;
+    return NextResponse.json({ error: error.message }, { status });
   }
 }

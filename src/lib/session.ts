@@ -12,7 +12,7 @@ export const defaultSession: SessionData = {
 };
 
 export const sessionOptions: SessionOptions = {
-  password: process.env.IRON_SESSION_PASSWORD as string,
+  password: (process.env.IRON_SESSION_PASSWORD as string) || 'complex_password_at_least_32_characters_long',
   cookieName: 'admin_blog_session',
   cookieOptions: {
     // secure: true should be used in production (HTTPS)
