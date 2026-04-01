@@ -1,5 +1,6 @@
 import { PostService } from '@/services/post.service';
 import Link from 'next/link';
+import Image from 'next/image';
 import { 
   Plus, 
   Search, 
@@ -67,7 +68,7 @@ export default async function PostsPage() {
                   <td className="p-6">
                     <div className="flex items-center gap-4">
                       {post.imageUrl ? (
-                        <img src={post.imageUrl} className="w-12 h-12 rounded-lg object-cover border border-border group-hover:scale-110 transition-transform duration-500" alt="" />
+                        <Image src={post.imageUrl} width={48} height={48} className="rounded-lg object-cover border border-border group-hover:scale-110 transition-transform duration-500" alt="" />
                       ) : (
                         <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center border border-border">
                           <FileText size={20} className="text-muted-foreground" />

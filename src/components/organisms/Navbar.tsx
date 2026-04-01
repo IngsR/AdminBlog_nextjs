@@ -2,6 +2,7 @@
 
 import { Menu, User, Bell, Sun, Moon } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTheme } from '@/lib/ThemeContext';
 
 interface NavbarProps {
@@ -23,7 +24,7 @@ export default function Navbar({ onMenuClick }: NavbarProps) {
         </button>
 
         <Link href="/admin" className="flex items-center gap-2 min-w-0">
-          <img src="/BLog.png" alt="BLog Logo" className="w-7 h-7 object-contain shrink-0 drop-shadow-sm" />
+          <Image src="/BLog.png" alt="BLog Logo" width={28} height={28} className="object-contain shrink-0 drop-shadow-sm" />
           <h1 className="text-base font-black text-foreground tracking-tight truncate">
             Admin<span className="text-indigo-500">BLog</span>
           </h1>
