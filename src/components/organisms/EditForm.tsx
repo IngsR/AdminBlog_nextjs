@@ -9,6 +9,7 @@ import { Input } from '@/components/atoms/Input';
 import { Card } from '@/components/atoms/Card';
 import { Badge } from '@/components/atoms/Badge';
 import { ImageUpload } from '@/components/molecules/ImageUpload';
+import RichTextEditor from '@/components/molecules/RichTextEditor';
 import { cn } from '@/lib/utils';
 
 interface EditFormProps {
@@ -107,22 +108,17 @@ export function EditForm({ post, categories }: EditFormProps) {
               />
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-muted-foreground ml-1 tracking-wider uppercase">Content (Markdown)</label>
-                <div className="relative group">
-                  <textarea
-                    value={content}
-                    onChange={e => setContent(e.target.value)}
-                    required
-                    rows={14}
-                    className="w-full bg-input border border-border rounded-xl py-4 px-5 text-foreground placeholder-muted-foreground focus:bg-background focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all font-mono text-sm leading-relaxed resize-none"
-                    placeholder="Start writing your story in markdown..."
-                  />
-                </div>
+                <label className="text-xs font-semibold text-muted-foreground ml-1 tracking-wider uppercase">Content (Rich Text)</label>
+                <RichTextEditor
+                  value={content}
+                  onChange={setContent}
+                  placeholder="Continue writing your story with full formatting..."
+                />
               </div>
 
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-4 border-t border-border">
                 <Badge variant="outline" className="text-[10px] py-1 border-border text-muted-foreground">
-                  <Info size={10} className="mr-1" /> Markdown Supported
+                  <Info size={10} className="mr-1" /> WYSIWYG Editor Enabled
                 </Badge>
                 <Button
                   type="submit"
