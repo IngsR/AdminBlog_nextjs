@@ -18,8 +18,8 @@ export function ImageUpload({ value, onChange, label = 'Cover Image', className 
   const [errorMsg, setErrorMsg] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const resetStatus = () => {
-    setTimeout(() => setUploadStatus('idle'), 2500);
+  const resetStatus = (isError = false) => {
+    setTimeout(() => setUploadStatus('idle'), isError ? 5000 : 2500);
   };
 
   const handleUpload = useCallback(async (file: File) => {
@@ -38,15 +38,19 @@ export function ImageUpload({ value, onChange, label = 'Cover Image', className 
 
       const data = await res.json();
 
-      if (!res.ok) throw new Error(data.error || 'Upload failed');
+      if (!res.ok) {
+        console.error('Upload API failure:', data);
+        throw new Error(data.error || 'Upload failed');
+      }
 
       onChange(data.url);
       setUploadStatus('success');
       resetStatus();
     } catch (err: any) {
+      console.error('Upload handler error:', err);
       setErrorMsg(err.message);
       setUploadStatus('error');
-      resetStatus();
+      resetStatus(true);
     } finally {
       setIsUploading(false);
     }

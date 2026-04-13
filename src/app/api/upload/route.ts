@@ -6,7 +6,7 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY!
 );
 
-const BUCKET = 'image';
+const BUCKET = process.env.SUPABASE_BUCKET || 'blog-images';
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'];
 
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
 
     if (!ALLOWED_TYPES.includes(file.type)) {
       return NextResponse.json(
-        { error: `File type not allowed. Allowed: ${ALLOWED_TYPES.join(', ')}` },
+        { error: `File type not allowed (${file.type}). Allowed: ${ALLOWED_TYPES.join(', ')}` },
         { status: 400 }
       );
     }
@@ -37,16 +37,22 @@ export async function POST(request: Request) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = new Uint8Array(arrayBuffer);
 
+    // Detailed logging for debugging
+    console.log(`Uploading ${file.name} to bucket: ${BUCKET}, path: ${filePath}`);
+
     const { data, error } = await supabase.storage
       .from(BUCKET)
       .upload(filePath, buffer, {
         contentType: file.type,
-        upsert: false,
+        upsert: true,
       });
 
     if (error) {
-      console.error('Supabase upload error:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      console.error('Supabase upload error details:', JSON.stringify(error, null, 2));
+      return NextResponse.json({ 
+        error: `Supabase Storage Error: ${error.message}`,
+        details: error
+      }, { status: 500 });
     }
 
     const { data: publicUrlData } = supabase.storage
@@ -55,7 +61,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ url: publicUrlData.publicUrl }, { status: 201 });
   } catch (error: any) {
-    console.error('Upload error:', error);
-    return NextResponse.json({ error: error.message || 'Upload failed' }, { status: 500 });
+    console.error('Internal Upload error:', error);
+    return NextResponse.json({ error: error.message || 'Internal server error during upload' }, { status: 500 });
   }
 }
